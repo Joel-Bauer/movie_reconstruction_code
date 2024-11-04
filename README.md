@@ -3,9 +3,10 @@ Code to produce figures from Bauer et al., 2024 (https://www.biorxiv.org/content
 This codes functions as an extention to the repository https://github.com/lRomul/sensorium, merge both repositories to run this code.
 To download the reconstructed videos, model weights, transparency masks, drifting grating stimuli, Gaussian noise stimuli go to https://gin.g-node.org/Joel-Bauer/Movie_reconstruction. 
 This repository contains .sbatch scripts that runs the code in a singularity container, to convert the docker containiner from https://github.com/lRomul/sensorium run the code bellow.
+
 '''
 docker save -o lRomul_sensorium.tar sensorium:latest
-...
+'''
 
 # Run reconstructions
 
@@ -16,6 +17,7 @@ The weights can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_
 ## To produce the transparency masks
 For replicating the figures in the paper download the masks from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/masks/
 To generate masks from scratch use the code below:
+
 '''
 cd <mydirectory>
 singularity shell --nv --bind <mydirectory>:/root/sensorium sensorium.sif
