@@ -30,17 +30,23 @@ sbatch hpc_run_reconstructions.sbatch
 The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
 
 ## To reconstruct natural movies with reduced population sizes
-run hpc_run_reconstructions_ablation.sbatch
+```
+sbatch hpc_run_reconstructions_ablation.sbatch
+```
 The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
 
 ## To reconstruct Gaussian noise stimuli from predicted neural activity
 Download the stimuli from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/utils_reconstruction/gaussian_noise_movies.npz
-run hpc_run_reconstructions_noise.sbatch
+```
+sbatch hpc_run_reconstructions_noise.sbatch
+```
 The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
 
 ## To reconstruct drifting grating stimuli from predicted neural activity
 Download the stimuli from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/utils_reconstruction/grating_movies.npz
-run hpc_run_reconstructions_gratings.sbatch
+```
+sbatch hpc_run_reconstructions_gratings.sbatch
+```
 The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
 
 
