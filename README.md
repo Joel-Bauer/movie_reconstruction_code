@@ -4,10 +4,9 @@ This codes functions as an extention to the repository https://github.com/lRomul
 To download the reconstructed videos, model weights, transparency masks, drifting grating stimuli, Gaussian noise stimuli go to https://gin.g-node.org/Joel-Bauer/Movie_reconstruction. 
 This repository contains .sbatch scripts that runs the code in a singularity container, to convert the docker containiner from https://github.com/lRomul/sensorium run the code bellow.
 
-'''
+```
 docker save -o lRomul_sensorium.tar sensorium:latest
-'''
-
+```
 # Run reconstructions
 
 ## To re-train DwiseNeuro (SOTA dynamic neural encoding model by Ruslan Baikulov)
@@ -18,14 +17,16 @@ The weights can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_
 For replicating the figures in the paper download the masks from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/masks/
 To generate masks from scratch use the code below:
 
-'''
+```
 cd <mydirectory>
 singularity shell --nv --bind <mydirectory>:/root/sensorium sensorium.sif
 python3 scripts/reconstruct_videos_natural.py
-'''
+```
 
 ## To reconstruct natural movies from recorded neural activity
-run hpc_run_reconstructions.sbatch
+```
+sbatch hpc_run_reconstructions.sbatch
+```
 The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
 
 ## To reconstruct natural movies with reduced population sizes
