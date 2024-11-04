@@ -29,7 +29,7 @@ print('------------')
 track_itter = 10
 plot_itter = track_itter*1
 data_fold = 'fold_0' # choose test set, different to all chosen models
-model_list = [1] # 0,1,2,3,4,5,6
+model_list = [1] # 0,1,2,3,4,5,6 # if this is more than one then the gradient is averaged across models at each step
 number_models = np.array(model_list).shape[0]
 animals = [0,1,2,3,4] # range(0,5) 
 start_trial = [0]
@@ -38,20 +38,22 @@ random_trials = False # if true then random trials are chosen, default False
 video_length = None # None. max is 300 but thats too much for my gpu
 load_skip_frames = 0 # in case beginning of video should be skipped, default 0
 
+# Reduced population size 
+population_reduction = [0] # a fraction (0-1) of the population to drop, new sample for each trial (1/2,3/4,7/8)
+
 # option to control parameters as inputs
 parser = argparse.ArgumentParser(description='optional parameters as inputs. mouse,model_list')
 parser.add_argument('--model_list', type=int, nargs='+', default=model_list, help='list of models to use for reconstruction 0 to 6')
 parser.add_argument('--animals', type=int, nargs='+', default=animals, help='list of animals to reconstruct videos from [0,1,2,3,4]')
 parser.add_argument('--start_trial', type=int, nargs='+', default=start_trial, help='first trail to reconstruction 0')
 parser.add_argument('--end_trial', type=int, nargs='+', default=end_trial, help='last trial to reconstruct (not including this one) 10')
+parser.add_argument('--population_reduction', type=float, default=population_reduction, help='fraction of population to reduce 0,0.5,0.75,0.875')
 args = parser.parse_args()
 model_list = np.array(args.model_list) 
 animals = np.array(args.animals)
 start_trial = args.start_trial[0]
 end_trial = args.end_trial[0]
-
-# Reduced population size 
-population_reduction = 0 # a fraction (0-1) of the population to drop, new sample for each trial (1/2,3/4,7/8)
+population_reduction = args.population_reduction[0]
 
 # to optimize to the predicted responses rather than the gt responses
 optimize_given_predicted_responese = False

@@ -1,0 +1,5 @@
+ipykernel==6.29.4
+numpy==1.26.1
+matplotlib==3.8.4
+tifffile==2024.2.12
+scipy==1.13.0
