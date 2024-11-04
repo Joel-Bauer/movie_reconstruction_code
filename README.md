@@ -1,6 +1,6 @@
 # Movie_reconstruction
 Code to produce figures from Bauer et al., 2024 (https://www.biorxiv.org/content/10.1101/2024.06.19.599691v3).
-This codes functions as an extention to the repository https://github.com/lRomul/sensorium, merge both repositories to run this code.
+This code functions as an extention to the repository https://github.com/lRomul/sensorium, merge both repositories to run this code.
 To download the reconstructed videos, model weights, transparency masks, drifting grating stimuli, Gaussian noise stimuli go to https://gin.g-node.org/Joel-Bauer/Movie_reconstruction. 
 This repository contains .sbatch scripts that runs the code in a singularity container, to convert the docker containiner from https://github.com/lRomul/sensorium run the code bellow.
 
