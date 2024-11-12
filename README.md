@@ -1,6 +1,6 @@
 # Movie_reconstruction
 Code to produce figures from [Bauer et al., (bioRxiv 2024)](https://www.biorxiv.org/content/10.1101/2024.06.19.599691v3).
-* To reproduce the figures from the paper, download this code and the reconstructions files. Then create an environment using the requirements_analysis.txt file and run the jupyter notebooks (see below for details).
+* To reproduce the figures from the paper, download this code and the reconstruction files. Then create an environment using the requirements_analysis.txt file and run the jupyter notebooks (see below for details).
     * [reconstructions](https://gin.g-node.org/Joel-Bauer/Movie_reconstruction)
 * To run reconstructions from scratch, download the code for the winning model of the Sensorium competition (DwiseNeuro) and add the code from this repository into the same folder. Optionally, the re-trained weights and alpha masks used in the paper can be downloaded. To re-train the model from scratch you will need both the old and new Sensorium dataset, but if you use the retrained weights, you only need the new dataset. To reconstruct the Gaussian noise or drifting grating stimuli those will also need to be downloaded. Then convert the docker container from the DwiseNeuro repository to a singularity container and run the .sbatch scripts (see below for details).
     * [DwiseNeuro](https://github.com/lRomul/sensorium)
@@ -12,22 +12,27 @@ Code to produce figures from [Bauer et al., (bioRxiv 2024)](https://www.biorxiv.
 # Run analysis with downloaded reconstructions
 To run the jupyter notebooks below, first create an environment using requiremnts_analysis.txt
 
-## To analyse results of the natural movie reconstruction (and ensembling effect)
+## Natural movie reconstruction (and ensembling effect)
 run analyse_reconstructions.ipynb. 
-This will produce figure panels for Fig 1-3 and supplementary Fig 1 & 3. 
 
-## To analyse results of the population ablation experiment
+This will produce figure panels for Fig 1-3 and supplementary Fig 1 & 3. This are the core results of the paper.
+
+## Population ablation experiment
 run analyse_reconstructions_population_reduction.ipynb. 
-This will produce Fig 5.
 
-## To analyse results of the Gaussian noise stimuli reconstruction
+This will produce Fig 5. to test the effect of neural population size on movie reconstruction quality.
+
+
+## Gaussian noise stimuli reconstructions
 run analyse_reconstructions_gaussian_noise.ipynb. 
 
-This will produce Fig 4.
+This will produce Fig 4. to asses the resolution limits of the reconstruction process. 
 
-## To analyse results of the drifting grating stimuli reconstruction
+## Drifting grating stimuli reconstructions
 run analyse_reconstructions_drifting_gratings.ipynb. 
-This will produce figure panels from supplementary Fig 2.
+
+This will produce supplementary Fig 2. to asses the resolution limits of the reconstruction process. 
+
 
 # Run reconstructions from scratch
 The .sbatch files described below are designed to run the code on an HPC. To execute them as they are convert the docker container file to a singularity container. 
@@ -57,7 +62,7 @@ sbatch hpc_run_reconstructions.sbatch
 The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
 
 ## Reconstruct natural movies with reduced population sizes (population ablation)
-To test the effect of neural population size on movie reconstruction quality we performed an ablation experiment.
+To test the effect of neural population size on movie reconstruction quality we performed an ablation experiment. To run these reconstructions from scratch:
 ```
 sbatch hpc_run_reconstructions_ablation.sbatch
 ```
@@ -72,7 +77,7 @@ sbatch hpc_run_reconstructions_noise.sbatch
 The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
 
 ## To reconstruct drifting grating stimuli from predicted neural activity
-to test the resolution limits of the method we also reconstructed drifting gratings
+To test the resolution limits of the method we also reconstructed drifting gratings
 Download the stimuli from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/utils_reconstruction/grating_movies.npz
 ```
 sbatch hpc_run_reconstructions_gratings.sbatch
