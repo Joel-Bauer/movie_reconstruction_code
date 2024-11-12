@@ -10,22 +10,23 @@ Code to produce figures from [Bauer et al., (bioRxiv 2024)](https://www.biorxiv.
 
 
 # Run analysis with downloaded reconstructions
-To run the jupyter notebooks below first create an environment using requiremnts_analysis.txt
+To run the jupyter notebooks below, first create an environment using requiremnts_analysis.txt
 
 ## To analyse results of the natural movie reconstruction (and ensembling effect)
-run analyse_reconstructions.ipynb
+run analyse_reconstructions.ipynb. 
 This will produce figure panels for Fig 1-3 and supplementary Fig 1 & 3. 
 
 ## To analyse results of the population ablation experiment
-run analyse_reconstructions_population_reduction.ipynb
-This will produce figure panels from Fig 5.
+run analyse_reconstructions_population_reduction.ipynb. 
+This will produce Fig 5.
 
 ## To analyse results of the Gaussian noise stimuli reconstruction
-run analyse_reconstructions_gaussian_noise.ipynb
-This will produce figure panels from Fig 4.
+run analyse_reconstructions_gaussian_noise.ipynb. 
+
+This will produce Fig 4.
 
 ## To analyse results of the drifting grating stimuli reconstruction
-run analyse_reconstructions_drifting_gratings.ipynb
+run analyse_reconstructions_drifting_gratings.ipynb. 
 This will produce figure panels from supplementary Fig 2.
 
 # Run reconstructions from scratch
