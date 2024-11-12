@@ -1,12 +1,12 @@
 # Movie_reconstruction
 Code to produce figures from [Bauer et al., (bioRxiv 2024)](https://www.biorxiv.org/content/10.1101/2024.06.19.599691v3).
-•	To reproduce the figures from the paper, download this code and the reconstructions files. Then create an environment using the requirements_analysis.txt file and run the jupyter notebooks (see below for details).
-o	[reconstructions](https://gin.g-node.org/Joel-Bauer/Movie_reconstruction)
-•	To run reconstructions from scratch, download the code for the winning model of the Sensorium competition (DwiseNeuro) and add the code from this repository into the same folder. Optionally, the re-trained weights and alpha masks used in the paper can be downloaded. To re-train the model from scratch you will need both the old and new Sensorium dataset, but if you use the retrained weights, you only need the new dataset. To reconstruct the Gaussian noise or drifting grating stimuli those will also need to be downloaded. Then convert the docker container from the DwiseNeuro repository to a singularity container and run the .sbatch scripts (see below for details).
-o	[DwiseNeuro](https://github.com/lRomul/sensorium)
-o	Sensorium 2023 data [old](https://gin.g-node.org/pollytur/Sensorium2023Data) and [new](https://gin.g-node.org/pollytur/sensorium_2023_dataset)
-o	Drifting grating and Gaussian noise [stimuli](https://gin.g-node.org/Joel-Bauer/Movie_reconstruction)
-o	[Retrained weights and alpha masks from the paper]( https://gin.g-node.org/Joel-Bauer/Movie_reconstruction)
+*To reproduce the figures from the paper, download this code and the reconstructions files. Then create an environment using the requirements_analysis.txt file and run the jupyter notebooks (see below for details).
+**[reconstructions](https://gin.g-node.org/Joel-Bauer/Movie_reconstruction)
+*To run reconstructions from scratch, download the code for the winning model of the Sensorium competition (DwiseNeuro) and add the code from this repository into the same folder. Optionally, the re-trained weights and alpha masks used in the paper can be downloaded. To re-train the model from scratch you will need both the old and new Sensorium dataset, but if you use the retrained weights, you only need the new dataset. To reconstruct the Gaussian noise or drifting grating stimuli those will also need to be downloaded. Then convert the docker container from the DwiseNeuro repository to a singularity container and run the .sbatch scripts (see below for details).
+**[DwiseNeuro](https://github.com/lRomul/sensorium)
+**Sensorium 2023 data [old](https://gin.g-node.org/pollytur/Sensorium2023Data) and [new](https://gin.g-node.org/pollytur/sensorium_2023_dataset)
+**Drifting grating and Gaussian noise [stimuli](https://gin.g-node.org/Joel-Bauer/Movie_reconstruction)
+**[Retrained weights and alpha masks from the paper]( https://gin.g-node.org/Joel-Bauer/Movie_reconstruction)
 
 
 # Run analysis with downloaded reconstructions
