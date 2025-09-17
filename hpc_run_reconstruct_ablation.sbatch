@@ -31,6 +31,22 @@ singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARI
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --population_reduction 0.75
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --population_reduction 0.875
 
+# add replacement trials
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 0 --start_trial 10 --end_trial 12 --population_reduction 0.5
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 1 --start_trial 10 --end_trial 12 --population_reduction 0.5
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 10 --end_trial 11 --population_reduction 0.5
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 14 --end_trial 17 --population_reduction 0.5
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 3 --start_trial 10 --end_trial 11 --population_reduction 0.5
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 0 --start_trial 10 --end_trial 12 --population_reduction 0.75
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 1 --start_trial 10 --end_trial 12 --population_reduction 0.75
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 10 --end_trial 11 --population_reduction 0.75
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 14 --end_trial 17 --population_reduction 0.75
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 3 --start_trial 10 --end_trial 11 --population_reduction 0.75
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 0 --start_trial 10 --end_trial 12 --population_reduction 0.875
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 1 --start_trial 10 --end_trial 12 --population_reduction 0.875
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 10 --end_trial 11 --population_reduction 0.875
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 14 --end_trial 17 --population_reduction 0.875
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 3 --start_trial 10 --end_trial 11 --population_reduction 0.875
 
 
 
