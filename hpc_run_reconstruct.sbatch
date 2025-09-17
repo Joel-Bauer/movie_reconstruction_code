@@ -29,4 +29,10 @@ module load cuda/12.0
 cd /ceph/margrie/joelb/video_reconstruction_from_sensorium2023_winner
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID
 
+# add replacement trials
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 0 --start_trial 10 --end_trial 12
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 1 --start_trial 10 --end_trial 12
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 10 --end_trial 11
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 14 --end_trial 17
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 3 --start_trial 10 --end_trial 11
 
