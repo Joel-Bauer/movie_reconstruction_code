@@ -28,5 +28,6 @@ module load cuda/12.0
 # run the script
 cd /ceph/margrie/joelb/video_reconstruction_from_sensorium2023_winner
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_gaussian_noise.py --model_list $SLURM_ARRAY_TASK_ID
+singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_gaussian_noise.py --model_list $SLURM_ARRAY_TASK_ID --phase_invert_stim
 
 

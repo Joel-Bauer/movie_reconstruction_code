@@ -23,19 +23,22 @@ plot_itter = track_itter*1
 data_fold = 'fold_0' # choose test set, different to all chosen models
 model_response_pred_list = np.array([0,1,2,3,4,5,6]) # 1,2,3,4,5,6 # used for estimating gt true responses
 model_list = [0] # 0,1,2,3,4,5,6 
-number_models = model_list.shape[0]
+number_models = np.array(model_list).shape[0]
 animals = [0,1,2] # range(0,3) 
 reprange = range(0,5) # range(0,5)
 video_length = None # None max is 300 but thats too much for my gpu
+phase_invert_stim = False
 
 # option to control parameters as inputs
 import argparse
 parser = argparse.ArgumentParser(description='optional parameters as inputs. mouse,model_list')
 parser.add_argument('--model_list', type=int, nargs='+', default=model_list, help='list of models to use for reconstruction [0-6]')
 parser.add_argument('--animals', type=int, nargs='+', default=animals, help='list of models to use for reconstruction [0-6]')
+parser.add_argument('--phase_invert_stim', type=bool, default=phase_invert_stim, help='phase invert stimulus')
 args = parser.parse_args()
 model_list = np.array(args.model_list) 
 animals = np.array(args.animals)
+phase_invert_stim = args.phase_invert_stim
 
 
 subbatch_size = 32
@@ -99,7 +102,12 @@ for rep in range(0,vids.shape[0]):
 vids = np.clip(vids, 0, 255)
 print('Gaussian Noise stimulus shape: ', vids.shape) #  reps: 5, spatial length constant: 7, temporal length constant: 7, frames: 60, h: 36,w: 64
 video_length = vids.shape[-3]
-s
+
+# phase invert stimulus
+if phase_invert_stim:
+    print('phase inverting stimulus')
+    vids = -1*vids + 255
+
 # loop order (last to first priority)
 # reps, models, mouse, spatial, length constant, temporal length constant
 for rep in reprange: # predetermined to slip across nodes but full range would be range(0,vids.shape[0]):
@@ -110,6 +118,8 @@ for rep in reprange: # predetermined to slip across nodes but full range would b
         
         # save location
         save_path = f'reconstructions/modelfold{model_list[current_model]}_round4_Gausnoise/'
+        if phase_invert_stim:
+            save_path = f'reconstructions/modelfold{model_list[current_model]}_round5_Gausnoise_PhaseInverted/'
         Path(save_path).mkdir(parents=True, exist_ok=True) 
         print('save path:' + save_path)
 
