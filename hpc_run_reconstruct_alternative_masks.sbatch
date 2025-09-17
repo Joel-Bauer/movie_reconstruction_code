@@ -29,7 +29,6 @@ module load cuda/12.0
 cd /ceph/margrie/joelb/video_reconstruction_from_sensorium2023_winner
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --strict_mask
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --no_train_mask
-singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --optimize_given_predicted_responese
 
 # add replacement trials
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 0 --start_trial 10 --end_trial 12 --strict_mask
@@ -43,9 +42,3 @@ singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARI
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 10 --end_trial 11 --no_train_mask
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 14 --end_trial 17 --no_train_mask
 singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 3 --start_trial 10 --end_trial 11 --no_train_mask
-
-singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 0 --start_trial 10 --end_trial 12 --optimize_given_predicted_responese
-singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 1 --start_trial 10 --end_trial 12 --optimize_given_predicted_responese
-singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 10 --end_trial 11 --optimize_given_predicted_responese
-singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 2 --start_trial 14 --end_trial 17 --optimize_given_predicted_responese
-singularity exec --nv --bind $SINGULARITY_BINDPATH --pwd $WORKING_DIR $SINGULARITY_IMAGE python3 scripts/reconstruct_videos_natural.py --model_list $SLURM_ARRAY_TASK_ID --animals 3 --start_trial 10 --end_trial 11 --optimize_given_predicted_responese
