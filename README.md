@@ -15,7 +15,7 @@ To run the jupyter notebooks below, first create an environment using requiremnt
 ## Natural movie reconstruction (and ensembling effect)
 run analyse_reconstructions.ipynb. 
 
-This will produce figure panels for Fig 1-3 and supplementary Fig 1 & 3. This are the core results of the paper.
+This will produce figure panels for Fig 1-3 and supplementary Fig 1,3 & 4. This are the core results of the paper.
 
 ## Population ablation experiment
 run analyse_reconstructions_population_reduction.ipynb. 
@@ -26,13 +26,17 @@ This will produce Fig 5. to test the effect of neural population size on movie r
 ## Gaussian noise stimuli reconstructions
 run analyse_reconstructions_gaussian_noise.ipynb. 
 
-This will produce Fig 4. to asses the resolution limits of the reconstruction process. 
+This will produce Fig 4. and supplementary Fig 5 to asses the resolution limits of the reconstruction process. 
 
 ## Drifting grating stimuli reconstructions
 run analyse_reconstructions_drifting_gratings.ipynb. 
 
-This will produce supplementary Fig 2. to asses the resolution limits of the reconstruction process. 
+This will produce supplementary Fig 6. to asses the resolution limits of the reconstruction process. 
 
+## Revision experiments (receptive field mapping, masking effect & reconstruction from predicted activity)
+run analyse_reconstructions_from_predicted_activity.ipynb.
+
+This will produce figure pannels from Fig 6 and supplementary Fig 2 & 3 
 
 # Run reconstructions from scratch
 The .sbatch files described below are designed to run the code on an HPC. To execute them as they are convert the docker container file to a singularity container. 
@@ -84,3 +88,37 @@ sbatch hpc_run_reconstructions_gratings.sbatch
 ```
 The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
 
+## To reconstruct using alternative masking approaches
+To test the effect of masking we also ran reconstructions with no mask or a stricter mask. 
+```
+sbatch hpc_run_reconstructions_alternative_masks.sbatch
+```
+The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
+
+## To reconstruct using predicted activity 
+To estimate the upper bound of reconstruction performance we ran reconstructions using predicted neural activity instead of experimentally measured activity 
+```
+sbatch hpc_run_reconstructions_alternative_predicted_activity.sbatch
+```
+The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
+
+## To reconstruct using gradient ensembling
+To test the effect of averaging across reconstructions from different models we also averaging gradients across models during reconstructions instead
+```
+sbatch hpc_run_reconstructions_ensembled.sbatch
+```
+The reconstructions can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
+
+## To map receptive fields
+To comapre the transparency masks to the population receptive field we mapped single neuron receptive fields of all neurons
+```
+python scripts/RF_mapping.py
+```
+The predicted responses can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
+
+## To get predicted resposnes to the reconstructed movies
+To evaluate the effect of luminance and contrast adujustment or as masking on predicted neural activity we generated neural activity predictions under different conditions
+```
+python scripts/predict_response_from_recon.py
+```
+The predicted responses can also be downloaded from https://gin.g-node.org/Joel-Bauer/Movie_reconstruction/reconstructions/
