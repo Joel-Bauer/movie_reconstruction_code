@@ -29,17 +29,23 @@ print('------------')
 track_itter = 10
 plot_itter = track_itter*1
 data_fold = 'fold_0' # choose test set, different to all chosen models
-model_list = [1] # 0,1,2,3,4,5,6 # if this is more than one then the gradient is averaged across models at each step
+model_list = [0] # 0,1,2,3,4,5,6 # if this is more than one then the gradient is averaged across models at each step
 number_models = np.array(model_list).shape[0]
 animals = [0,1,2,3,4] # range(0,5) 
 start_trial = [0]
 end_trial = [10] # not incluing this one
 random_trials = False # if true then random trials are chosen, default False
-video_length = None # None. max is 300 but thats too much for my gpu
+video_length = None # None. max is 300 but can be too much for your gpu
 load_skip_frames = 0 # in case beginning of video should be skipped, default 0
+mask_update_th = 0.5 # [0:1], defaul 0.5
+mask_eval_th = 1 # [0:1], default 1
+no_train_mask = False
+strict_mask = False # if true then the mask is only applied to the video channel, otherwise it is applied to all channels
+optimize_given_predicted_responese = False # to optimize to the predicted responses rather than the gt responses
+
 
 # Reduced population size 
-population_reduction = [0] # a fraction (0-1) of the population to drop, new sample for each trial (1/2,3/4,7/8)
+population_reduction = 0 # a fraction (0-1) of the population to drop, new sample for each trial (1/2,3/4,7/8)
 
 # option to control parameters as inputs
 parser = argparse.ArgumentParser(description='optional parameters as inputs. mouse,model_list')
@@ -48,15 +54,22 @@ parser.add_argument('--animals', type=int, nargs='+', default=animals, help='lis
 parser.add_argument('--start_trial', type=int, nargs='+', default=start_trial, help='first trail to reconstruction 0')
 parser.add_argument('--end_trial', type=int, nargs='+', default=end_trial, help='last trial to reconstruct (not including this one) 10')
 parser.add_argument('--population_reduction', type=float, default=population_reduction, help='fraction of population to reduce 0,0.5,0.75,0.875')
+parser.add_argument('--no_train_mask', action='store_true', help='if true then the mask is not applied to the video channel, but to all channels')
+parser.add_argument('--strict_mask', action='store_true', help='if true then the mask is only applied to the video channel, otherwise it is applied to all channels')
+parser.add_argument('--optimize_given_predicted_responese', action='store_true', help='if true then the optimization is done to the predicted responses rather than the gt responses')
 args = parser.parse_args()
 model_list = np.array(args.model_list) 
+number_models = np.array(model_list).shape[0]
 animals = np.array(args.animals)
 start_trial = args.start_trial[0]
 end_trial = args.end_trial[0]
-population_reduction = args.population_reduction[0]
+population_reduction = args.population_reduction
+print('population_reduction: ' + str(population_reduction))
+no_train_mask = args.no_train_mask
+strict_mask = args.strict_mask
+optimize_given_predicted_responese = args.optimize_given_predicted_responese
 
-# to optimize to the predicted responses rather than the gt responses
-optimize_given_predicted_responese = False
+
 
 # randomize neuron order or ground truth responese
 randomize_neurons = False
@@ -69,10 +82,6 @@ n_steps = 1
 epoch_reducer = 1 # eg. if 0.5 for every stride length take half the epochs of the previous stride
 strides_all, epoch_switch = utils.stride_calculator(minibatch=minibatch,n_steps=n_steps,epoch_number_first=epoch_number_first,epoch_reducer=epoch_reducer)
 print('strides_all: ' + str(strides_all) + '; epoch_switch: ' + str(epoch_switch))
-
-# mask parameters
-mask_update_th = 0.5 # [0:1], defaul 0.5
-mask_eval_th = 1 # [0:1], default 1
 
 # loss and regularizers
 vid_init = 'gray' # 'noise', 'static_noise', 'gt_vid_first_1', 'gt_vid', 'gray'
@@ -93,14 +102,23 @@ drop_method='zero_pred_n_true' # 'zero_pred', 'zero_pred_n_true', 'set_pred_to_t
 input_noise = 0 # 5
 pix_decay_rate = 0 # try 0.005 with gray start
 
+
 # save location
-save_path_sufix = 'hpc_round6'
+save_path_sufix = 'hpc_round11'
 if optimize_given_predicted_responese:
     save_path_sufix = save_path_sufix + '_fit_to_predicted'
 if population_reduction > 0:
     save_path_sufix = save_path_sufix + f'_popreduc'
 if randomize_neurons:
     save_path_sufix = save_path_sufix + '_randneurons'
+if no_train_mask:
+    mask_update_th = 0
+    save_path_sufix = save_path_sufix + '_nontrainmask'
+if loss_func == 'mse':
+    save_path_sufix = save_path_sufix + '_mse'
+elif strict_mask:
+    mask_update_th = 1
+    save_path_sufix = save_path_sufix + '_strictmask'
 
 save_path = f'reconstructions/modelfold{model_list}_data{data_fold}_pop{round(100-population_reduction*100)}_{save_path_sufix}/'
 
@@ -133,7 +151,7 @@ model_path[4] = Path('data/experiments/true_batch_002/fold_4/model-017-0.291103.
 model_path[5] = Path('data/experiments/true_batch_002/fold_5/model-017-0.291734.pth')
 model_path[6] = Path('data/experiments/true_batch_002/fold_6/model-017-0.291974.pth')
 
-# load all selected models
+# load all selected models (selection is defined by model_list)
 for n in range(0,len(model_list)):
     print('loading model for reconstruction: ', model_path[model_list[n]])
     model[n] = argus.load_model(model_path[model_list[n]], device=device, optimizer=None, loss=None)
@@ -141,12 +159,14 @@ for n in range(0,len(model_list)):
 
 # create all predictors
 if optimize_given_predicted_responese:
+    # then all the predictors need to be loaded
     predictor = [None]*len(model_path)
     for n in range(0,len(predictor)):
         model_path_temp = model_path[n]
         print('predicting true resp with model: ', model_path_temp)
         predictor[n] = Predictor(model_path=model_path_temp, device=device, blend_weights="ones")
-else: # then all the predictors need to be loaded
+else: 
+    # then only the models used for reconstuction are loaded
     predictor = [None]*number_models
     for n in range(0,len(predictor)):
         model_path_temp = model_path[model_list[n]]
@@ -190,7 +210,7 @@ for mouse_index in animals:
         inputs=inputs.to(device)
         responses=responses.to(device)
         
-        # randomize responses order with specified seed
+        # randomize response order with specified seed
         if randomize_neurons:
             manual_seed = (trial_n+1)*(mouse_index+1) # this means there will be a different seed for most trials and mice but conistent across model rusn
             print(f'random seed for randomizing neurons: {manual_seed}')
@@ -203,6 +223,8 @@ for mouse_index in animals:
             print(f'random seed for population dropout: {manual_seed}')
             torch.manual_seed(manual_seed) # manual seed so each video has the same neurons across models
             population_mask = torch.rand((responses.shape[0],1), device=device) > population_reduction  
+            print(f'population mask shape: {population_mask.shape}')
+            print(f'repponses shape: {responses.shape}')
             responses = responses * population_mask.repeat(1,responses.shape[1])
         else:
             population_mask = None        
@@ -222,8 +244,8 @@ for mouse_index in animals:
             
         # if performing a population ablation experiment, ablate neurons from the population prediction aswell
         if population_mask is not None:
-            responses_predicted_original = responses_predicted_original * population_mask.repeat(2,responses_predicted_original.shape[2]).cpu().detach().numpy()
- 
+            responses_predicted_original = responses_predicted_original * population_mask[:,None,:].cpu().detach().numpy()
+
         # get correlation and loss between predicted responses and gt responses
         loss_gt = utils.response_loss_function(torch.from_numpy(responses_predicted_original.mean(axis=2)).to(device),
                                         responses.clone().detach().to(device), mask=population_mask)       
@@ -246,8 +268,8 @@ for mouse_index in animals:
             
         # if performing population ablation experiment, ablate neurons from the population prediction aswell
         if population_mask is not None:
-            responses_predicted_original_masked = responses_predicted_original_masked * population_mask.repeat(2,responses_predicted_original_masked.shape[2]).cpu().detach().numpy()
-        
+            responses_predicted_original_masked = responses_predicted_original_masked * population_mask[:,None,:].cpu().detach().numpy()
+            
         # get correlation and loss between predicted responses and gt responses
         loss_gt_masked = utils.response_loss_function(torch.from_numpy(responses_predicted_original_masked.mean(axis=2).copy()).to(device),
                                         responses.clone().detach().to(device), mask=population_mask)   
@@ -266,7 +288,7 @@ for mouse_index in animals:
         
         # apply population_mask to response predictions
         if population_mask is not None:
-            responses_predicted_gray = responses_predicted_gray * population_mask.repeat(2,responses_predicted_gray.shape[2]).cpu().detach().numpy()
+            responses_predicted_gray = responses_predicted_gray * population_mask[:,None,:].cpu().detach().numpy()
         
         # define preditor which tracks gradients
         predictor_withgrads = [None]*number_models 
@@ -440,7 +462,7 @@ for mouse_index in animals:
                 reconstruction_masked = reconstruction*mask_cropped + np.ones_like(reconstruction)*(1-mask_cropped)*255/2
                 
                 # full loss
-                responses_predicted_full = np.zeros((constants.num_neurons[mouse_index], video_length,number_models))
+                responses_predicted_full = np.zeros((constants.num_neurons[mouse_index], video_length,len(predictor)))
                 for n in range(0,len(predictor)):
                     responses_predicted_full[:,:,n] = predictor[n].predict_trial(
                         video=np.moveaxis(reconstruction_masked,[0],[2]),
