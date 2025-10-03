@@ -1,5 +1,5 @@
 # Movie_reconstruction
-Code to produce figures from [Bauer et al., (bioRxiv 2024)](https://www.biorxiv.org/content/10.1101/2024.06.19.599691v3). Updated version comming soon!
+Code to produce figures from [Bauer et al., (bioRxiv 2024)](https://www.biorxiv.org/content/10.1101/2024.06.19.599691v4). Updated version comming soon!
 * To reproduce the figures from the paper, download this code and the reconstruction files. Then create an environment using the requirements_analysis.txt file and run the jupyter notebooks (see below for details).
     * [reconstructions](https://gin.g-node.org/Joel-Bauer/Movie_reconstruction)
 * To run reconstructions from scratch, download the code for the winning model of the Sensorium competition (DwiseNeuro) and add the code from this repository into the same folder. Optionally, the re-trained weights and alpha masks used in the paper can be downloaded. To re-train the model from scratch you will need both the old and new Sensorium dataset, but if you use the retrained weights, you only need the new dataset. To reconstruct the Gaussian noise or drifting grating stimuli those will also need to be downloaded. Then convert the docker container from the DwiseNeuro repository to a singularity container and run the .sbatch scripts (see below for details).
